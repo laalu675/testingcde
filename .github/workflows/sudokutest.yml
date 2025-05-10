@@ -1,0 +1,166 @@
+# Test cases for a Sudoku game/solver
+
+name: SudokuTester
+
+test_cases:
+  # Test Case 1: Valid Completed Board
+  - name: "Valid Completed Board"
+    description: "A fully completed and valid Sudoku board."
+    board:
+      - [5, 3, 4, 6, 7, 8, 9, 1, 2]
+      - [6, 7, 2, 1, 9, 5, 3, 4, 8]
+      - [1, 9, 8, 3, 4, 2, 5, 6, 7]
+      - [8, 5, 9, 7, 6, 1, 4, 2, 3]
+      - [4, 2, 6, 8, 5, 3, 7, 9, 1]
+      - [7, 1, 3, 9, 2, 4, 8, 5, 6]
+      - [9, 6, 1, 5, 3, 7, 2, 8, 4]
+      - [2, 8, 7, 4, 1, 9, 6, 3, 5]
+      - [3, 4, 5, 2, 8, 6, 1, 7, 9]
+    expected:
+      valid_input: true       # Is the initial board valid?
+      solvable: true          # Is the board solvable?
+      solved_on_input: true   # Is the initial board already solved?
+      solution:               # The expected solved board (if solvable)
+        - [5, 3, 4, 6, 7, 8, 9, 1, 2]
+        - [6, 7, 2, 1, 9, 5, 3, 4, 8]
+        - [1, 9, 8, 3, 4, 2, 5, 6, 7]
+        - [8, 5, 9, 7, 6, 1, 4, 2, 3]
+        - [4, 2, 6, 8, 5, 3, 7, 9, 1]
+        - [7, 1, 3, 9, 2, 4, 8, 5, 6]
+        - [9, 6, 1, 5, 3, 7, 2, 8, 4]
+        - [2, 8, 7, 4, 1, 9, 6, 3, 5]
+        - [3, 4, 5, 2, 8, 6, 1, 7, 9]
+
+  # Test Case 2: Valid Solvable Board (Partial)
+  - name: "Valid Solvable Board (Partial)"
+    description: "A valid board with empty cells that has a unique solution."
+    board:
+      - [5, 3, 0, 0, 7, 0, 0, 0, 0]
+      - [6, 0, 0, 1, 9, 5, 0, 0, 0]
+      - [0, 9, 8, 0, 0, 0, 0, 6, 0]
+      - [8, 0, 0, 0, 6, 0, 0, 0, 3]
+      - [4, 0, 0, 8, 0, 3, 0, 0, 1]
+      - [7, 0, 0, 0, 2, 0, 0, 0, 6]
+      - [0, 6, 0, 0, 0, 0, 2, 8, 0]
+      - [0, 0, 0, 4, 1, 9, 0, 0, 5]
+      - [0, 0, 0, 0, 8, 0, 0, 7, 9]
+    expected:
+      valid_input: true
+      solvable: true
+      solved_on_input: false
+      solution:
+        - [5, 3, 4, 6, 7, 8, 9, 1, 2]
+        - [6, 7, 2, 1, 9, 5, 3, 4, 8]
+        - [1, 9, 8, 3, 4, 2, 5, 6, 7]
+        - [8, 5, 9, 7, 6, 1, 4, 2, 3]
+        - [4, 2, 6, 8, 5, 3, 7, 9, 1]
+        - [7, 1, 3, 9, 2, 4, 8, 5, 6]
+        - [9, 6, 1, 5, 3, 7, 2, 8, 4]
+        - [2, 8, 7, 4, 1, 9, 6, 3, 5]
+        - [3, 4, 5, 2, 8, 6, 1, 7, 9]
+
+  # Test Case 3: Invalid Board (Duplicate in Row)
+  - name: "Invalid Board (Duplicate in Row)"
+    description: "Board with a duplicate number in the first row."
+    board:
+      - [5, 3, 4, 6, 7, 8, 9, 1, 1] # <-- Duplicate '1'
+      - [6, 7, 2, 1, 9, 5, 3, 4, 8]
+      - [1, 9, 8, 3, 4, 2, 5, 6, 7]
+      - [8, 5, 9, 7, 6, 1, 4, 2, 3]
+      - [4, 2, 6, 8, 5, 3, 7, 9, 1]
+      - [7, 1, 3, 9, 2, 4, 8, 5, 6]
+      - [9, 6, 1, 5, 3, 7, 2, 8, 4]
+      - [2, 8, 7, 4, 1, 9, 6, 3, 5]
+      - [3, 4, 5, 2, 8, 6, 1, 7, 9]
+    expected:
+      valid_input: false
+      solvable: false
+      solved_on_input: false
+      solution: null # Expect no solution for an invalid board
+
+  # Test Case 4: Invalid Board (Duplicate in Column)
+  - name: "Invalid Board (Duplicate in Column)"
+    description: "Board with a duplicate number in the first column."
+    board:
+      - [5, 3, 4, 6, 7, 8, 9, 1, 2]
+      - [5, 7, 2, 1, 9, 5, 3, 4, 8] # <-- Duplicate '5' in column 0
+      - [1, 9, 8, 3, 4, 2, 5, 6, 7]
+      - [8, 5, 9, 7, 6, 1, 4, 2, 3]
+      - [4, 2, 6, 8, 5, 3, 7, 9, 1]
+      - [7, 1, 3, 9, 2, 4, 8, 5, 6]
+      - [9, 6, 1, 5, 3, 7, 2, 8, 4]
+      - [2, 8, 7, 4, 1, 9, 6, 3, 5]
+      - [3, 4, 5, 2, 8, 6, 1, 7, 9]
+    expected:
+      valid_input: false
+      solvable: false
+      solved_on_input: false
+      solution: null
+
+  # Test Case 5: Invalid Board (Duplicate in 3x3 Box)
+  - name: "Invalid Board (Duplicate in 3x3 Box)"
+    description: "Board with a duplicate number in the top-left 3x3 box."
+    board:
+      - [5, 5, 4, 6, 7, 8, 9, 1, 2] # <-- Duplicate '5' in top-left box
+      - [6, 7, 2, 1, 9, 5, 3, 4, 8]
+      - [1, 9, 8, 3, 4, 2, 5, 6, 7]
+      - [8, 5, 9, 7, 6, 1, 4, 2, 3]
+      - [4, 2, 6, 8, 5, 3, 7, 9, 1]
+      - [7, 1, 3, 9, 2, 4, 8, 5, 6]
+      - [9, 6, 1, 5, 3, 7, 2, 8, 4]
+      - [2, 8, 7, 4, 1, 9, 6, 3, 5]
+      - [3, 4, 5, 2, 8, 6, 1, 7, 9]
+    expected:
+      valid_input: false
+      solvable: false
+      solved_on_input: false
+      solution: null
+
+  # Test Case 6: Empty Board
+  - name: "Empty Board"
+    description: "An empty Sudoku board."
+    board:
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    expected:
+      valid_input: true
+      solvable: true
+      solved_on_input: false
+      # Providing one possible solution for an empty board
+      solution:
+        - [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        - [4, 5, 6, 7, 8, 9, 1, 2, 3]
+        - [7, 8, 9, 1, 2, 3, 4, 5, 6]
+        - [2, 3, 1, 5, 6, 4, 8, 9, 7]
+        - [5, 6, 4, 8, 9, 7, 2, 3, 1]
+        - [8, 9, 7, 2, 3, 1, 5, 6, 4]
+        - [3, 1, 2, 6, 4, 5, 9, 7, 8]
+        - [6, 4, 5, 9, 7, 8, 3, 1, 2]
+        - [9, 7, 8, 3, 1, 2, 6, 4, 5]
+
+  # Test Case 7: Unsolvable Board (Valid Input but No Solution)
+  - name: "Unsolvable Board (Valid Input)"
+    description: "A valid board setup that has no possible solution."
+    # This is a known unsolvable board configuration
+    board:
+      - [8, 0, 0, 0, 0, 0, 0, 0, 0]
+      - [0, 0, 3, 6, 0, 0, 0, 0, 0]
+      - [0, 7, 0, 0, 9, 0, 2, 0, 0]
+      - [0, 5, 0, 0, 0, 7, 0, 0, 0]
+      - [0, 0, 0, 0, 4, 5, 7, 0, 0]
+      - [0, 0, 0, 1, 0, 0, 0, 3, 0]
+      - [0, 0, 1, 0, 0, 0, 0, 6, 8]
+      - [0, 0, 8, 5, 0, 0, 0, 1, 0]
+      - [0, 9, 0, 0, 0, 0, 4, 0, 0]
+    expected:
+      valid_input: true
+      solvable: false
+      solved_on_input: false
+      solution: null # Expect no solution
